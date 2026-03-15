@@ -98,6 +98,33 @@ https://localhost
 | Cache | Redis 7 |
 
 ---
+## Project Architecture
+
+                 ┌─────────────────┐
+                 │  User / Browser │
+                 └────────┬────────┘
+                          │
+                          ▼
+              ┌─────────────────────────┐
+              │          Nginx          │
+              │  Reverse Proxy + SSL    │
+              │  Load Balancer          │
+              └───────┬─────────┬───────┘
+                      │         │
+                      ▼         ▼
+             ┌────────────┐ ┌────────────┐
+             │  Flask 1   │ │  Flask 2   │
+             │ Gunicorn   │ │ Gunicorn   │
+             └─────┬──────┘ └─────┬──────┘
+                   │              │
+                   └──────┬───────┘
+                          │
+          ┌───────────────┴────────────────┐
+          ▼                                ▼
+ ┌───────────────────┐             ┌───────────────────┐
+ │    PostgreSQL     │             │       Redis       │
+ │ Persistent Storage│             │ Cache / Fast Data │
+ └───────────────────┘             └───────────────────┘
 
 # 📌 Project Goal
 
